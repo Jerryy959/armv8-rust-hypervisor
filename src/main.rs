@@ -5,12 +5,12 @@ use core::arch::global_asm; // 支持内联汇编
 
 mod panic;
 mod driver;
-mod lib;
+mod libprint;
 global_asm!(include_str!("arch/aarch64/start.s")); // 内联汇编
 
 #[macro_export]
 macro_rules! print {
-    ($($arg:tt)*) => ($crate::lib::_print(format_args!($($arg)*)));
+    ($($arg:tt)*) => ($crate::libprint::_print(format_args!($($arg)*)));
 }
 #[macro_export]
 macro_rules! println {
