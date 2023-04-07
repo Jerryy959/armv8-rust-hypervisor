@@ -1,2 +1,5 @@
 /target
 .DS_Store
+/scipts/host/ubuntu-20.04-server-cloudimg-arm64.img
+/scipts/host/user-data
+/scipts/host/user-data/img
