@@ -1,4 +1,4 @@
-mod page_table;
+pub mod page_table;
 
 use core::marker::PhantomData;
 
