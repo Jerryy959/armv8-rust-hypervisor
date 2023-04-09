@@ -20,12 +20,15 @@ qemu_args := \
 	-device virtio-scsi-device -device scsi-cd,drive=cdrom \
 	-drive if=none,file=ubuntuimg.img,id=hd0 \
 	-device virtio-blk-device,drive=hd0 \
-	-net user,id=net,hostfwd=tcp::$(PORT)-:22 -net nic \
+	-net user,id=net -net nic \
     -serial mon:stdio
 
 
 # $(qemu_image):
 # 	wget https://old-releases.ubuntu.com/releases/18.04.3/$(qemu_image)
+
+# $(qemu_efi):
+# 	wget http://releases.linaro.org/components/kernel/uefi-linaro/16.02/release/qemu64/QEMU_EFI.fd
 
 .ONESHELL:
 image: $(qemu_image)
