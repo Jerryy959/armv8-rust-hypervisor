@@ -1,17 +1,31 @@
 QEMU ?= qemu-system-aarch64
 PORT ?= 2333
 
-qemu_image := ubuntu-20.04-server-cloudimg-arm64.img
-qemu_args := \
-  -smp 4 -m 4G -accel kvm -nographic \
-  -M virt \
-  -cpu cortex-a53 \
-  -drive file=$(qemu_image) \
-  -net user,id=net,hostfwd=tcp::$(PORT)-:22 -net nic,model=e1000e \
-  -serial mon:stdio
+# qemu_image := ubuntu-18.04-server-arm64.iso
+# qemu_efi := QEMU_EFI.fd
+# qemu_args := \
+#   -smp 4 -m 4G -accel tcg -nographic \
+#   -M virt \
+#   -cpu cortex-a57 \
+#   -drive file=$(qemu_image) \
+#   -net user,id=net -net nic \
+#   -serial mon:stdio
 
-$(qemu_image):
-	wget https://cloud-images.ubuntu.com/releases/focal/release/$(qemu_image)
+qemu_args := \
+  	-smp 4 -m 4G -nographic \
+	-M virt \
+	-cpu cortex-a57 \
+	-bios QEMU_EFI.fd \
+	-drive if=none,file=ubuntu-18.04-server-arm64.iso,id=cdrom,media=cdrom \
+	-device virtio-scsi-device -device scsi-cd,drive=cdrom \
+	-drive if=none,file=ubuntuimg.img,id=hd0 \
+	-device virtio-blk-device,drive=hd0 \
+	-net user,id=net,hostfwd=tcp::$(PORT)-:22 -net nic \
+    -serial mon:stdio
+
+
+# $(qemu_image):
+# 	wget https://old-releases.ubuntu.com/releases/18.04.3/$(qemu_image)
 
 .ONESHELL:
 image: $(qemu_image)
