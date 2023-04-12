@@ -1,6 +1,8 @@
 QEMU ?= qemu-system-aarch64
 PORT ?= 2333
 
+qemu_image := ubuntu-18.04-server-arm64.iso
+
 qemu_build_args := \
   	-smp 4 -m 4G -nographic \
 	-M virt \
@@ -24,14 +26,16 @@ qemu_args := \
 	-net user,id=net,hostfwd=tcp::$(PORT)-:22 -net nic,model=e1000e \
     -serial mon:stdio
 
-# $(qemu_image):
-# 	wget https://old-releases.ubuntu.com/releases/18.04.3/$(qemu_image)
+$(qemu_image):
+	wget https://old-releases.ubuntu.com/releases/18.04.3/$(qemu_image)
 
-# $(qemu_efi):
-# 	wget http://releases.linaro.org/components/kernel/uefi-linaro/16.02/release/qemu64/QEMU_EFI.fd
+$(qemu_efi):
+	wget http://releases.linaro.org/components/kernel/uefi-linaro/16.02/release/qemu64/QEMU_EFI.fd
 
 .ONESHELL:
-image:
+image: $(qemu_image)
+	$(qemu_efi)
+	qemu-img create ubuntuimg.img 40G
 	$(QEMU) $(qemu_build_args)
 
 qemu:
