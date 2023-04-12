@@ -1,2 +1,8 @@
 /target
 .DS_Store
+/scipts/host/ubuntu-18.04-server-arm64.iso
+/scipts/host/QEMU_EFI.fd
+/scipts/host/ubuntuimg.img
+/scipts/host/user-data
+/scipts/host/user-data/img
+/.vscode
