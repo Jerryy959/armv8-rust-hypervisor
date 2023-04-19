@@ -11,8 +11,7 @@ export LOG
 export ARCH
 export STATS
 
-OBJDUMP ?= objdump
-OBJCOPY ?= objcopy
+OBJCOPY ?= rust-objcopy --binary-architecture=$(ARCH)
 
 build_path := target/$(ARCH)/$(MODE)
 target_elf := $(build_path)/rvmarm
@@ -30,10 +29,10 @@ ifeq ($(MODE), release)
   build_args += --release
 endif
 
-.PHONY: qemu-aarch64
-qemu-aarch64:
-	cargo clean
-	cargo build $(build_args)
+# .PHONY: qemu-aarch64
+# qemu-aarch64:
+# 	cargo clean
+# 	cargo build $(build_args)
 
 .PHONY: all
 all: $(target_bin)
@@ -44,24 +43,3 @@ elf:
 
 $(target_bin): elf
 	$(OBJCOPY) $(target_elf) --strip-all -O binary $@
-
-.PHONY: start
-start: qemu-aarch64
-	qemu-system-aarch64 \
-    -M virt \
-    -m 1024M \
-    -cpu cortex-a53 \
-    -nographic \
-    -machine virtualization=on \
-    -kernel target/aarch64/release/armv8-baremetal-demo-rust
-
-.PHONY: debug
-debug: qemu-aarch64
-	qemu-system-aarch64 \
-    -M virt \
-    -m 1024M \
-    -cpu cortex-a53 \
-    -nographic \
-    -machine virtualization=on \
-    -kernel target/aarch64/release/armv8-baremetal-demo-rust \
-    -S -s
