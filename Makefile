@@ -1,5 +1,4 @@
 ARCH ?= aarch64
-VENDOR ?= 
 LOG ?=
 STATS ?= off
 PORT ?= 2333
@@ -10,9 +9,14 @@ MODE := release
 export MODE
 export LOG
 export ARCH
-export VENDOR
 export STATS
 
+OBJDUMP ?= objdump
+OBJCOPY ?= objcopy
+
+build_path := target/$(ARCH)/$(MODE)
+target_elf := $(build_path)/rvmarm
+target_bin := $(build_path)/rvmarm.bin
 
 features :=
 
@@ -30,6 +34,16 @@ endif
 qemu-aarch64:
 	cargo clean
 	cargo build $(build_args)
+
+.PHONY: all
+all: $(target_bin)
+
+.PHONY: elf
+elf:
+	cargo build $(build_args)
+
+$(target_bin): elf
+	$(OBJCOPY) $(target_elf) --strip-all -O binary $@
 
 .PHONY: start
 start: qemu-aarch64
