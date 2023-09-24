@@ -85,3 +85,11 @@ http://ruer.fun/2021/04/20/GDB-%E7%BC%96%E8%AF%91%E6%96%B9%E6%B3%95-2021/
 3. mkdir build %% cd build
 4. ../qemu-7.2.0/configure --enable-kvm --enable-slirp --enable-debug --target-list=aarch64-softmmu,x86_64-softmmu
 5. make -j2
+
+Star History
+------------
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=Comet959/armv8-rust-hypervisor&type=Date&theme=dark" />
+  <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=Comet959/armv8-rust-hypervisor&type=Date" />
+  <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=Comet959/armv8-rust-hypervisor&type=Date" />
+</picture>
